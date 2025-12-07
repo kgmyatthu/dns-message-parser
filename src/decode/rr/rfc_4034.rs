@@ -5,6 +5,7 @@ use crate::rr::{
 };
 use crate::DecodeResult;
 use crate::{decode::Decoder, DecodeError};
+use std::collections::BTreeSet;
 use std::convert::TryFrom;
 
 impl<'a, 'b: 'a> Decoder<'a, 'b> {
@@ -71,7 +72,7 @@ impl<'a, 'b: 'a> Decoder<'a, 'b> {
     pub(super) fn rr_nsec(&mut self, header: Header) -> DecodeResult<NSEC> {
         let class = header.get_class()?;
         let next_domain_name = self.domain_name()?;
-        let mut type_bit_maps = Vec::new();
+        let mut type_bit_maps = BTreeSet::new();
         while self.remaining()? > 0 {
             let window = self.u8()?;
             let bitmap_length = self.u8()?;
@@ -84,7 +85,7 @@ impl<'a, 'b: 'a> Decoder<'a, 'b> {
                     if byte & (0x80 >> bit) != 0 {
                         let type_number = u16::from(window) * 256 + (index as u16 * 8 + bit);
                         let type_ = Type::try_from(type_number).map_err(DecodeError::Type)?;
-                        type_bit_maps.push(type_);
+                        type_bit_maps.insert(type_);
                     }
                 }
             }

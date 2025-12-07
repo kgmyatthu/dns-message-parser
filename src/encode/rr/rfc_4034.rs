@@ -44,7 +44,7 @@ impl Encoder {
         self.rr_class(&nsec.class);
         self.u32(nsec.ttl);
         let length_index = self.create_length_index();
-        self.domain_name(&nsec.next_domain_name)?;
+        self.domain_name_without_compression(&nsec.next_domain_name)?;
 
         let mut windows: BTreeMap<u8, [u8; 32]> = BTreeMap::new();
         for type_ in &nsec.type_bit_maps {

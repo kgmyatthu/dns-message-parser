@@ -31,7 +31,7 @@ try_from_enum_to_integer! {
     ///
     /// [type]: https://tools.ietf.org/html/rfc1035#section-3.2.2
     /// [resource records]: crate::rr::RR
-    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
     pub enum Type {
         /// The [IPv4] [host address] type.
         ///

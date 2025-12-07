@@ -766,7 +766,7 @@ fn rr_nsec() {
         ttl: 3600,
         class: Class::IN,
         next_domain_name,
-        type_bit_maps: vec![Type::A, Type::MX, Type::RRSIG],
+        type_bit_maps: BTreeSet::from([Type::A, Type::MX, Type::RRSIG]),
     });
     check_output(&rr, "example.org. 3600 IN NSEC ns.example.org. A MX RRSIG");
 }
